@@ -3,6 +3,8 @@ export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/
 source ./options.sh
 
 echo 'Install back-end web stack (LEMP):'
+echo 'Taken repository MariaDB:  https://downloads.mariadb.org/mariadb/repositories/'
+echo '---------------------------------------------------------------------------------'
 echo '1) Install from Official repository. (without MariaDB)'
 echo '2) Install using the added repository. (without MariaDB)'
 echo '3) Install from Official repository. (with MariaDB)'
@@ -30,20 +32,22 @@ http_firewall-cmd
 [[ "$?" -eq 0  ]] && echo -e 'cheers! \n' || exit 1
 ;;
      3)
-repo_preinstall_check
+off_preinstall_with_db_check
 warn_php
 repo_installer
-full_setting_added_repo
+full_setting_off_repo_with_db
 finish_off
+mysql_secure_installation
 http_firewall-cmd
 [[ "$?" -eq 0  ]] && echo -e 'cheers! \n' || exit 1
 ;;
      4)
-repo_preinstall_check
+repo_preinstall_with_db_check
 warn_php
-repo_installer
-full_setting_added_repo
+repo_installer_with_db
+full_setting_added_with_db_repo
 finish_off
+mysql_secure_installation
 http_firewall-cmd
 [[ "$?" -eq 0  ]] && echo -e 'cheers! \n' || exit 1
 ;;
@@ -54,3 +58,4 @@ exit 0
 echo "Select some solution..."
 ;;
 esac
+
