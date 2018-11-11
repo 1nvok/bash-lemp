@@ -7,9 +7,6 @@ return 1
 fi
 }
 
-mysql_secure_installation(){
-mysql_secure_installation 
-}
 warn_php(){
 if ( check_php_if_exist -eq 0 ); then
 echo 'You already have another PHP version...'
@@ -88,15 +85,15 @@ echo -e "Created derectory path ${HOSTNAME}\n"
 echo -e 'Create logs files...\n'
 sudo touch /var/log/nginx/access_${HOSTNAME}.log
 sudo touch /var/log/nginx/error_${HOSTNAME}.log
-echo -e 'Check who is owner original "/var/log/nginx/access.log" file...\n'
-ls -l /var/log/nginx/access.log | awk '{print $3}'
-ls -l /var/log/nginx/access.log | awk '{print $4}'
-echo -e 'Set variables...\n'
-username=$(sudo ls -l /var/log/nginx/access.log | awk '{print $3}')
-usergroup=$(sudo ls -l /var/log/nginx/access.log | awk '{print $4}')
-echo -e 'Chown the owner of your files...\n'
-chown $username:$usergroup /var/log/nginx/access_${HOSTNAME}.log
-chown $username:$usergroup /var/log/nginx/error_${HOSTNAME}.log
+#echo -e 'Check who is owner original "/var/log/nginx/access.log" file...\n'
+#ls -l /var/log/nginx/access.log | awk '{print $3}'
+#ls -l /var/log/nginx/access.log | awk '{print $4}'
+#echo -e 'Set variables...\n'
+#username=$(sudo ls -l /var/log/nginx/access.log | awk '{print $3}')
+#usergroup=$(sudo ls -l /var/log/nginx/access.log | awk '{print $4}')
+#echo -e 'Chown the owner of your files...\n'
+#chown $username:$usergroup /var/log/nginx/access_${HOSTNAME}.log
+#chown $username:$usergroup /var/log/nginx/error_${HOSTNAME}.log
 echo -e 'Copy nginx.conf...\n'
 . ./nginx.file
 echo -e 'Copy index.php...\n'
@@ -157,6 +154,7 @@ echo "Do you want to install "$X"?"
     case $confirm in
         [Yy]* ) 
 		yum -y clean all
+.		./nginx_repo.sh
 		yum -y update
 		yum -y install centos-release-scl.noarch
 		yum -y install $X
@@ -176,15 +174,15 @@ echo -e "Created derectory path ${HOSTNAME}\n"
 echo -e 'Create logs files...\n'
 sudo touch /var/log/nginx/access_${HOSTNAME}.log
 sudo touch /var/log/nginx/error_${HOSTNAME}.log
-#echo -e 'check who is owner original "/var/log/nginx/access.log" file...\n'
-#ls -l /var/log/nginx/access.log | awk '{print $3}'
-#ls -l /var/log/nginx/access.log | awk '{print $4}'
-#echo -e 'set variables...\n'
-#username=$(sudo ls -l /var/log/nginx/access.log | awk '{print $3}')
-#usergroup=$(sudo ls -l /var/log/nginx/access.log | awk '{print $4}')
-#echo -e 'chown the owner of your files...\n'
-#chown $username:$usergroup /var/log/nginx/access_${HOSTNAME}.log
-#chown $username:$usergroup /var/log/nginx/error_${HOSTNAME}.log
+echo -e 'check who is owner original "/var/log/nginx/access.log" file...\n'
+ls -l /var/log/nginx/access.log | awk '{print $3}'
+ls -l /var/log/nginx/access.log | awk '{print $4}'
+echo -e 'set variables...\n'
+username=$(sudo ls -l /var/log/nginx/access.log | awk '{print $3}')
+usergroup=$(sudo ls -l /var/log/nginx/access.log | awk '{print $4}')
+echo -e 'chown the owner of your files...\n'
+chown $username:$usergroup /var/log/nginx/access_${HOSTNAME}.log
+chown $username:$usergroup /var/log/nginx/error_${HOSTNAME}.log
 echo -e 'Copy nginx.conf...\n'
 . ./nginx.file
 echo -e 'Copy index.php...\n'
@@ -263,8 +261,8 @@ rpm -qa |grep 'mariadb'
 repo_preinstall_with_db_check(){
 INST="/tmp/installed_soft.log"
 NOT_INST="/tmp/not_installed_soft.log"
-SOFT="nginx rh-php70 rh-php70-php rh-php70-php-fpm mariadb-server mariadb-client"
-PUSH="nginx mariadb"
+SOFT="nginx rh-php70 rh-php70-php rh-php70-php-fpm mariadb-server"
+PUSH="nginx rh-php70-php-fpm mariadb"
 :> "$INST" && :> "$NOT_INST"
 echo -e 'Checking that the product already is installed...\n'
 for i in $SOFT
@@ -288,6 +286,7 @@ echo "Do you want to install "$X"?"
     case $confirm in
         [Yy]* )
                 yum -y clean all
+.               ./nginx_repo.sh
 .		./db_repo.sh
                 yum -y update
                 yum -y install $X

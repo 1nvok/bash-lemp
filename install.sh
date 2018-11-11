@@ -3,7 +3,8 @@ export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/
 source ./options.sh
 
 echo 'Install back-end web stack (LEMP):'
-echo 'Taken repository MariaDB:  https://downloads.mariadb.org/mariadb/repositories/'
+echo 'Taken repository MariaDB: https://downloads.mariadb.org/mariadb/repositories/'
+echo "Taken repository Nginx: http://nginx.org/packages/centos/$releasever/$basearch/"
 echo '---------------------------------------------------------------------------------'
 echo '1) Install from Official repository. (without MariaDB)'
 echo '2) Install using the added repository. (without MariaDB)'
