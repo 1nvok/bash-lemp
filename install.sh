@@ -1,11 +1,13 @@
 #!/bin/env bash
 export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
-source ./options.conf
+source ./options.sh
 
 echo 'Install back-end web stack (LEMP):'
-echo '1) Install from Official repository.'
-echo '2) Install using the added repository.'
-echo '3) Exit.'
+echo '1) Install from Official repository. (without MariaDB)'
+echo '2) Install using the added repository. (without MariaDB)'
+echo '3) Install from Official repository. (with MariaDB)'
+echo '4) Install using the added repository. (with MariaDB)'
+echo '5) Exit.'
 
 read select
 case $select in
@@ -22,11 +24,30 @@ http_firewall-cmd
 repo_preinstall_check
 warn_php
 repo_installer
+full_setting_added_repo
 finish_off
 http_firewall-cmd
 [[ "$?" -eq 0  ]] && echo -e 'cheers! \n' || exit 1
 ;;
      3)
+repo_preinstall_check
+warn_php
+repo_installer
+full_setting_added_repo
+finish_off
+http_firewall-cmd
+[[ "$?" -eq 0  ]] && echo -e 'cheers! \n' || exit 1
+;;
+     4)
+repo_preinstall_check
+warn_php
+repo_installer
+full_setting_added_repo
+finish_off
+http_firewall-cmd
+[[ "$?" -eq 0  ]] && echo -e 'cheers! \n' || exit 1
+;;
+     5)
 exit 0
 ;; 
      *)
