@@ -1,0 +1,3 @@
+cat <<EOF > $INDEX_PATH_DIR/index.php
+<?php phpinfo(); ?>
+EOF
